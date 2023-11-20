@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTube</title>
+    <style>
+        /* Your styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        p {
+            color: #777;
+        }
+
+        iframe {
+            margin-top: 20px;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>MyTube</h1>
+    <div>
+        <form action="/search" method="get">
+            <label for="search_query">Search for a YouTube video:</label>
+            <input type="text" id="search_query" name="search_query" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div id="thumbnail-container" class="thumbnail-container">
+        {% if search_results %}
+            {% for result in search_results %}
+                <div class="thumbnail" onclick="window.location.href='{{ url_for('play', video_id=result['videoId']) }}';">
+                    {# Check if 'videoThumbnails' is present and not empty #}
+                    {% if 'videoThumbnails' in result and result['videoThumbnails'] %}
+                        <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" width="480" height="270">
+                    {% else %}
+                        <p>No thumbnail available</p>
+                    {% endif %}
+                    <p>{{ result['title'] }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% if request.method == 'GET' %}
+                <p>No video found for the search query. Please try another search.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

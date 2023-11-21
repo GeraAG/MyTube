@@ -1,0 +1,13 @@
+{% for result in search_results %}
+    <div class="thumbnail">
+        {# Check if 'videoThumbnails' is present and not empty #}
+        {% if 'videoThumbnails' in result and result['videoThumbnails'] %}
+            <a href="{{ url_for('play', video_id=result['videoId']) }}">
+                <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" width="480" height="270">
+            </a>
+        {% else %}
+            <p>No thumbnail available</p>
+        {% endif %}
+        <p>{{ result['title'] }}</p>
+    </div>
+{% endfor %}

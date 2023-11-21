@@ -1,0 +1,9 @@
+{% if search_results %}
+    {% for result in search_results %}
+        {% include 'result.html' %}
+    {% endfor %}
+{% else %}
+    {% if request.method == 'GET' %}
+        <p>No video found for the search query. Please try another search.</p>
+    {% endif %}
+{% endif %}

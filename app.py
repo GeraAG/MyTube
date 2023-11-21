@@ -14,6 +14,7 @@ def home():
 @app.route('/search', methods=['GET'])
 def search():
     search_query = request.args.get('search_query')
+    page = request.args.get('page', 1, type=int)
 
     if search_query:
         '''
@@ -28,6 +29,7 @@ def search():
         '''
         params = {
             'q': search_query,
+            'page': page,
             'type': "video"
         }
         try:
@@ -37,9 +39,22 @@ def search():
         except requests.exceptions.RequestException as e:
             return jsonify(error=str(e)), 500
 
-        return render_template('index.html', search_results=results, search_query=search_query)
+        # Render the results as HTML for the initial request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            # Return paginated results as JSON for AJAX requests
+            return jsonify(html=render_template('result.html', search_results=results))
+        else:
+            # Return the entire HTML page for the initial request
+            return render_template('index.html', search_results=results, search_query=search_query)
+
     else:
-        return render_template('index.html', search_results=None)
+        # Return only the form when there's no search query
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            # For AJAX requests, return an empty response
+            return jsonify(html="")
+        else:
+            # For initial requests, return the form and no results
+            return render_template('index.html', search_results=None)
 
 @app.route('/play/<video_id>')
 def play(video_id):

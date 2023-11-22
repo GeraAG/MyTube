@@ -44,7 +44,6 @@ def search():
         currentTime = datetime.today()
 
         for result in results:
-            print(result['type'])
             if result['type'] == "video":
                 result['viewCount'] = shorten_views(result['viewCount'])
                 #result['published'] =
@@ -70,7 +69,7 @@ def search():
                     result['published'] = str(diff.minutes) + " minutes ago"
                 else:
                     print(publishedTime)
-                    result['published'] = "Sometime ago"
+                    result['published'] = ""
 
 
 

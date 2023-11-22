@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import requests
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from pytube import YouTube
 
 app = Flask(__name__)
@@ -30,7 +32,7 @@ def search():
         params = {
             'q': search_query,
             'page': page,
-            'type': "video"
+            'type': "all"
         }
         try:
             response = requests.get(INVIDIOUS_API_URL, params=params)
@@ -38,6 +40,39 @@ def search():
             results = response.json()
         except requests.exceptions.RequestException as e:
             return jsonify(error=str(e)), 500
+
+        currentTime = datetime.today()
+
+        for result in results:
+            print(result['type'])
+            if result['type'] == "video":
+                result['viewCount'] = shorten_views(result['viewCount'])
+                #result['published'] =
+                publishedTime = datetime.fromtimestamp(result['published'])
+                diff = relativedelta(currentTime, publishedTime)
+                if diff.years > 1:
+                    result['published'] = str(diff.years) + " years ago"
+                elif diff.years == 1:
+                    result['published'] = "1 year ago"
+                elif diff.months > 1:
+                    result['published'] = str(diff.months) + " months ago"
+                elif diff.months == 1:
+                    result['published'] = "1 month ago"
+                elif diff.days > 1:
+                    result['published'] = str(diff.days) + " days ago"
+                elif diff.days == 1:
+                    result['published'] = "1 day ago"
+                elif diff.hours > 1:
+                    result['published'] = str(diff.hours) + " hours ago"
+                elif diff.hours == 1:
+                    result['published'] = "1 hour ago"
+                elif diff.minutes > 1:
+                    result['published'] = str(diff.minutes) + " minutes ago"
+                else:
+                    print(publishedTime)
+                    result['published'] = "Sometime ago"
+
+
 
         # Render the results as HTML for the initial request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -70,6 +105,16 @@ def get_youtube_video_url(video_id):
 def get_youtube_video_title(video_id):
     yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
     return yt.title
+
+def shorten_views(num_views):
+    if num_views < 1000:
+        return str(num_views)
+    elif num_views < 1e6:
+        return f'{num_views/1e3:.1f}K'
+    elif num_views < 1e9:
+        return f'{num_views/1e6:.1f}M'
+    else:
+        return f'{num_views/1e9:.1f}B'
 
 if __name__ == '__main__':
     app.run(debug=True)

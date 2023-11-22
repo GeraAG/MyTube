@@ -1,13 +1,30 @@
 {% for result in search_results %}
     <div class="thumbnail">
         {# Check if 'videoThumbnails' is present and not empty #}
-        {% if 'videoThumbnails' in result and result['videoThumbnails'] %}
+        {% if result['type'] == "video" %}
             <a href="{{ url_for('play', video_id=result['videoId']) }}">
-                <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" width="480" height="270">
+                <div class="image">
+                    <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" width="480" height="270" loading="lazy">
+                </div>
+                <div class="title">
+                    <p>{{ result['title'] }}</p>
+                </div>
             </a>
+            <div class="info">
+                <span>{{ result['author'] }}</span>
+                <div>
+                    <span class="view-count">{{ result['viewCount'] }}</span>
+                    <span>{{ result['published'] }}</span>
+                </div>
+            </div>
+        {% elif 'playlistThumbnail' in result and result['playlistThumbnail'] %}
+            <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" width="480" height="270" loading="lazy">
+            <p>{{ result['title'] }}</p>
+        {% elif 'authorThumbnails' in result and result['authorThumbnails'] %}
+            <img src="{{ result['authorThumbnails'][0]['url'] }}" alt="Channel Thumbnail" width="480" height="270" loading="lazy">
+            <p>{{ result['author'] }}</p>
         {% else %}
             <p>No thumbnail available</p>
         {% endif %}
-        <p>{{ result['title'] }}</p>
     </div>
 {% endfor %}

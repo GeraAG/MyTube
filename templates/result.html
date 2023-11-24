@@ -2,7 +2,7 @@
     <div class="thumbnail">
         {# Check if 'videoThumbnails' is present and not empty #}
         {% if result['type'] == "video" %}
-            <a href="{{ url_for('play', video_id=result['videoId']) }}">
+            <a href="{{ url_for('watch', video_id=result['videoId']) }}">
                 <div class="image">
                     <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" loading="lazy">
                 </div>

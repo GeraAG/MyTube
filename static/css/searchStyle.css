@@ -1,44 +1,5 @@
 /* Your styles here */
 
-.top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    width: 99%;
-    padding-top: 10px;
-    margin-left: 0.5%;
-    margin-right: 0.5%;
-    height: 60px;
-    background-color: white;
-    overflow: auto;
-    border-bottom: solid;
-    border-color: #d1d1d1;
-}
-
-.flex {
-    display: flex;
-}
-
-.justify-start {
-    justify-content: flex-start;
-    flex: 2;
-}
-
-#title {
-    font-family: 'Russo One';
-    font-size: 50px;
-}
-
-.search-container {
-    text-align: center;
-    flex: 1;
-}
-
-.configuration {
-    flex: 2;
-}
-
 .thumbnail-container {
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
@@ -47,7 +8,6 @@
 
 .thumbnail {
     margin: 10px;
-
 }
 
 .image img {
@@ -70,14 +30,6 @@
     width: 50%;
     height: auto;
     aspect-ratio: 1;
-
-}
-
-#search-icon {
-    background: url('../icon/search-16px.png') no-repeat;
-    float: left;
-    width: 16px;
-    height: 16px;
 }
 
 body {
@@ -95,17 +47,6 @@ form {
 
 label {
     font-weight: bold;
-}
-
-input {
-    padding: 8px;
-    font-size: 16px;
-}
-
-button {
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
 }
 
 p {

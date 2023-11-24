@@ -2,11 +2,16 @@ from flask import Flask, render_template, request, jsonify
 import requests
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from pytube import YouTube
+from pytube import YouTube, Channel
 
 app = Flask(__name__)
 
+#TODO: chaeck if invideous insctance is not working and use working one
+invidious_instance = "https://invidious.nerdvpn.de"
+#invidious_instance = "https://redirect.invidious.io"
 INVIDIOUS_API_URL = "https://invidious.snopyta.org/api/v1/search"
+INVIDIOUS_WATCH_API_URL = invidious_instance + "/api/v1/videos/"
+
 
 @app.route('/')
 def home():
@@ -90,20 +95,46 @@ def search():
             # For initial requests, return the form and no results
             return render_template('index.html', search_results=None)
 
-@app.route('/play/<video_id>')
-def play(video_id):
-    video_url = get_youtube_video_url(video_id)
-    video_title = get_youtube_video_title(video_id)
-    return render_template('video_player.html', video_url=video_url, video_title=video_title)
-
-def get_youtube_video_url(video_id):
+@app.route('/watch/<video_id>')
+def watch(video_id):
     yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
+    #channel = Channel(yt.channel_url)
+
     video_stream = yt.streams.filter(file_extension='mp4', res='720p').first()
-    return video_stream.url if video_stream else None
+    if video_stream:
+        video_url = video_stream.url
+    else:
+        video_url = ""
 
-def get_youtube_video_title(video_id):
-    yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
-    return yt.title
+    '''
+    video_details = {
+        'author': yt.author,
+        'channel_id': yt.channel_id,
+        'channel_url': yt.channel_url,
+        'channel_name': channel.channel_name,
+        'description': yt.description,
+        'keywords': yt.keywords,
+        'publish_date': yt.publish_date,
+        'rating': yt.rating,
+        'thumbnail_url': yt.thumbnail_url,
+        'title': yt.title,
+        'views': yt.views
+    }
+    '''
+
+    api_url = INVIDIOUS_WATCH_API_URL + video_id
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()
+        results = response.json()
+        print(results)
+    except requests.exceptions.RequestException as e:
+        print('error')
+        return jsonify(error=str(e)), 500
+
+
+
+    return render_template('watch.html', video_url=video_url, details=results)
 
 def shorten_views(num_views):
     if num_views < 1000:

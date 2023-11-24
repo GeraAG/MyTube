@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTube - {{ details['title'] }}</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/topBar.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/watch.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+</head>
+<body>
+    {% include 'top_bar.html' %}
+    <div id="player">
+        <!--<iframe width="640" height="360" src="{{ video_url }}?autoplay=1" frameborder="0" allowfullscreen loading="lazy"></iframe>-->
+        <iframe width="1280" height="720" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div id="columns">
+        <div id="video-title">
+            <span>{{ details['title'] }}</span>
+        </div>
+        <div id="video-info">
+            <div id="author">
+                <div id="author-image">
+                    <img src="{{ details['authorThumbnails'][0]['url'] }}">
+                </div>
+                <div id="author-name">
+                    <span>{{ details['author'] }}</span>
+                </div>
+                <div id="author-subcount">
+                    <span>{{ details['subCountText'] }} subscribers</span>
+                </div>
+            </div>
+            <div id="rating">
+                <span id="likes">{{ details['likeCount'] }}</span>
+                {% if details['dislikeCount'] > 0 %}
+                    <span id="dislikes">{{ details['dislikeCount'] }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div id="description">
+            <div id="views">
+                <span>{{ details['viewCount'] }}</span>
+            </div>
+            <span>{{ details['description'] }}</span>
+        </div>
+        <div id="comments">
+
+        </div>
+    </div>
+</body>
+</html>

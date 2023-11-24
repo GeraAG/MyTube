@@ -79,3 +79,11 @@ $(window).scroll(function () {
         loadMoreResults();
     }
 });
+
+window.onload = function() {
+    var body = $('#thumbnail-container').outerHeight();
+    var win = $(window).height();
+    if (body < win ) {
+        loadMoreResults();
+    }
+};

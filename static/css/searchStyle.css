@@ -25,6 +25,11 @@
     flex: 2;
 }
 
+#title {
+    font-family: 'Russo One';
+    font-size: 50px;
+}
+
 .search-container {
     text-align: center;
     flex: 1;
@@ -32,6 +37,40 @@
 
 .configuration {
     flex: 2;
+}
+
+.thumbnail-container {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    margin-top: 100px;
+}
+
+.thumbnail {
+    margin: 10px;
+
+}
+
+.image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.author-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 16 / 9;
+}
+
+.circular {
+    object-fit: contain;
+    border-radius: 50%;
+    width: 50%;
+    height: auto;
+    aspect-ratio: 1;
+
 }
 
 #search-icon {
@@ -75,15 +114,4 @@ p {
 
 iframe {
     margin-top: 20px;
-}
-
-.thumbnail-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 100px;
-}
-
-.thumbnail {
-    margin: 10px;
-    cursor: pointer;
 }

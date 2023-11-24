@@ -4,7 +4,7 @@
         {% if result['type'] == "video" %}
             <a href="{{ url_for('play', video_id=result['videoId']) }}">
                 <div class="image">
-                    <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" width="480" height="270" loading="lazy">
+                    <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" loading="lazy">
                 </div>
                 <div class="title">
                     <p>{{ result['title'] }}</p>
@@ -18,11 +18,20 @@
                 </div>
             </div>
         {% elif 'playlistThumbnail' in result and result['playlistThumbnail'] %}
-            <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" width="480" height="270" loading="lazy">
+            <div class="image">
+                <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" loading="lazy">
+            </div>
             <p>{{ result['title'] }}</p>
         {% elif 'authorThumbnails' in result and result['authorThumbnails'] %}
-            <img src="{{ result['authorThumbnails'][0]['url'] }}" alt="Channel Thumbnail" width="480" height="270" loading="lazy">
-            <p>{{ result['author'] }}</p>
+            <div class="author-image-container">
+                <img class="circular" src="{{ result['authorThumbnails'][0]['url'] }}" alt="Channel Thumbnail" loading="lazy">
+            </div>
+            <div class="channel-name">
+                <p>{{ result['author'] }}</p>
+            </div>
+            <div class="channel-description">
+                <p>{{ result['description'] }}</p>
+            </div>
         {% else %}
             <p>No thumbnail available</p>
         {% endif %}

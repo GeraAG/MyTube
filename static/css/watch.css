@@ -20,7 +20,7 @@
     flex: 1;
     justify-content: flex-start;
     display: grid;
-    grid-template-columns: 60px 150px;
+    grid-template-columns: 60px 200px;
     grid-template-rows: 35px 35px;
     width: auto;
 }
@@ -56,13 +56,6 @@
     right: 0;
     text-align:right;
 }
-
-
-
-
-
-
-
 
 
 

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyTube - {{ details['title'] }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/topBar.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/watch.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+    <script src="{{ url_for('static', filename='js/watch.js') }}"></script>
 </head>
 <body>
     {% include 'top_bar.html' %}
@@ -39,7 +41,7 @@
         </div>
         <div id="description">
             <div id="views">
-                <span>{{ details['viewCount'] }}</span>
+                <span id="views-digits">{{ details['viewCount'] }}</span>
             </div>
             <span>{{ details['description'] }}</span>
         </div>

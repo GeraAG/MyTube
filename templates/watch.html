@@ -9,6 +9,7 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/watch.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
     <script src="{{ url_for('static', filename='js/watch.js') }}"></script>
+
 </head>
 <body>
     {% include 'top_bar.html' %}
@@ -33,17 +34,23 @@
                 </div>
             </div>
             <div id="rating">
-                <span id="likes">{{ details['likeCount'] }}</span>
-                {% if details['dislikeCount'] > 0 %}
-                    <span id="dislikes">{{ details['dislikeCount'] }}</span>
-                {% endif %}
+                <div id="rating-container">
+                    <span id="likes">{{ details['likeCount'] }}</span>
+                    <img src="../static/icon/like.png">
+                    {% if details['dislikeCount'] > 0 %}
+                        <span id="dislikes">{{ details['dislikeCount'] }}</span>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <div id="description">
+        <div id="description-container" onclick="showHide()">
             <div id="views">
-                <span id="views-digits">{{ details['viewCount'] }}</span>
+                <span id="views-digits">{{ details['viewCount'] }}</span><span id="date">  |  {{ details['publishedText'] }}</span>
             </div>
-            <span>{{ details['description'] }}</span>
+            <div id="description" class="description-text">
+                {{ description|safe }}
+            </div>
+            <span id="showhideButton">...more</span>
         </div>
         <div id="comments">
 

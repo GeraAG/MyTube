@@ -6,12 +6,19 @@
 #columns {
     max-width: 1280px;
     margin: 0 auto;
+    min-width: 0;
+}
+
+#video-title {
+    padding-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 #video-info {
     margin: 10px 0px;
+    padding-bottom: 10px;
     display: flex;
-
     border-bottom: solid;
     border-color: #d1d1d1;
 }
@@ -42,24 +49,71 @@
 }
 
 #author-name {
+    display: flex;
+    align-items: end;
+    padding-left: 10px;
+}
 
+#author-name span {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #author-subcount {
     display: flex;
-    align-items: end;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 15px;
 }
 
 #rating {
     flex: 1;
     width: auto;
     right: 0;
-    text-align:right;
 }
 
+#rating-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 70px;
+    margin-right: 10px;
+}
 
+#likes, #dislikes {
+    padding: 0 5px;
+}
 
+#description-container {
+    margin-top: 20px;
+    border-radius: 15px;
+    padding: 10px;
+    min-width: 0;
+    background-color: #f2f2f2;
+}
 
+#views {
+    padding-bottom: 10px;
+}
+
+.description-text {
+    height: 76px;
+    width: calc(100%);
+    display:block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: "more ...";
+    cursor: pointer;
+}
+
+.visible {
+    height: auto;
+}
+
+#showhideButton {
+    font-weight: bold;
+    cursor: pointer;
+}
 
 iframe {
     background-color: blue;

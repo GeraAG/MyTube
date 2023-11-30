@@ -29,6 +29,17 @@ function videoView() {
     elem.innerHTML = intToString(Number(elem.innerHTML));
 }
 
+function showHide() {
+    var e = document.getElementsByClassName('description-text')[0];
+    e.classList.toggle("visible");
+    var bt = document.getElementById("showhideButton")
+    if (e.classList.contains("visible")) {
+        bt.innerHTML = "Show Less";
+    } else {
+        bt.innerHTML = "...more";
+    }
+}
+
 window.onload = function() {
     likeView();
     videoView();

@@ -7,7 +7,8 @@ from pytube import YouTube, Channel
 app = Flask(__name__)
 
 #TODO: chaeck if invideous insctance is not working and use working one
-invidious_instance = "https://invidious.nerdvpn.de"
+#invidious_instance = "https://invidious.nerdvpn.de"
+invidious_instance = "https://invidious.io.lol"
 #invidious_instance = "https://redirect.invidious.io"
 INVIDIOUS_API_URL = "https://invidious.snopyta.org/api/v1/search"
 INVIDIOUS_WATCH_API_URL = invidious_instance + "/api/v1/videos/"
@@ -127,14 +128,14 @@ def watch(video_id):
         response = requests.get(api_url)
         response.raise_for_status()
         results = response.json()
-        print(results)
+        description = results['description'].replace('\n', '<br>')
     except requests.exceptions.RequestException as e:
         print('error')
         return jsonify(error=str(e)), 500
 
 
 
-    return render_template('watch.html', video_url=video_url, details=results)
+    return render_template('watch.html', video_url=video_url, details=results, description=description)
 
 def shorten_views(num_views):
     if num_views < 1000:

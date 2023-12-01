@@ -19,15 +19,19 @@ var intToString = num => {
 
 function likeView() {
     const elem = document.getElementById("likes");
-    console.log(elem);
     elem.innerHTML = intToString(Number(elem.innerHTML));
-}
+};
 
 function videoView() {
     const elem = document.getElementById("views-digits");
-    console.log(elem)
     elem.innerHTML = intToString(Number(elem.innerHTML));
-}
+};
+
+function commentLikeView() {
+    document.querySelectorAll('.comment-like').forEach(function(text) {
+        text.innerHTML = intToString(Number(text.innerHTML));
+    });
+};
 
 function showHide() {
     var e = document.getElementsByClassName('description-text')[0];
@@ -40,7 +44,27 @@ function showHide() {
     }
 }
 
+function isOverflown(element){
+    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+}
+
+function showComment() {
+    document.querySelectorAll('.content-container').forEach(function(comment) {
+        if (isOverflown(comment.querySelectorAll("div")[0])) {
+            comment.querySelectorAll("div")[1].classList.toggle("hidden");
+
+            comment.querySelectorAll("div")[1].addEventListener("click", (e) => {
+                e.currentTarget.parentNode.querySelectorAll("div")[0].classList.toggle("visible");
+            });
+        }
+
+    });
+};
+
 window.onload = function() {
     likeView();
     videoView();
+    commentLikeView();
+    showComment();
+
 };

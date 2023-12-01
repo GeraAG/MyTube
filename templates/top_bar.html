@@ -1,6 +1,8 @@
 <div class="top flex">
     <div class="justify-start">
-        <span id="title">MyTube<span>
+        <a href="{{ url_for('home') }}">
+            <span id="title">MyTube</span>
+        </a>
     </div>
     <div class="search-container">
         <form action="/search" method="get">

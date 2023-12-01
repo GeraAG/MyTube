@@ -27,9 +27,10 @@
     flex: 1;
     justify-content: flex-start;
     display: grid;
-    grid-template-columns: 60px 200px;
+    grid-template-columns: 60px 400px;
     grid-template-rows: 35px 35px;
     width: auto;
+    margin-left: 5px;
 }
 
 #author-image {
@@ -115,6 +116,11 @@
     cursor: pointer;
 }
 
+#comments {
+    margin-top: 20px;
+}
+
+/*
 iframe {
     background-color: blue;
-}
+}*/

@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/topBar.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/watch.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/comments.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
     <script src="{{ url_for('static', filename='js/watch.js') }}"></script>
 
@@ -14,8 +15,8 @@
 <body>
     {% include 'top_bar.html' %}
     <div id="player">
-        <!--<iframe width="640" height="360" src="{{ video_url }}?autoplay=1" frameborder="0" allowfullscreen loading="lazy"></iframe>-->
-        <iframe width="1280" height="720" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        <iframe width="1280" height="720" src="{{ video_url }}?autoplay=1" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        <!--<iframe width="1280" height="720" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>-->
     </div>
     <div id="columns">
         <div id="video-title">
@@ -53,7 +54,9 @@
             <span id="showhideButton">...more</span>
         </div>
         <div id="comments">
-
+            {% if commentsData %}
+                {% include 'comments.html' %}
+            {% endif %}
         </div>
     </div>
 </body>

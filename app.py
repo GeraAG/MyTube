@@ -12,6 +12,7 @@ invidious_instance = "https://invidious.io.lol"
 #invidious_instance = "https://redirect.invidious.io"
 INVIDIOUS_API_URL = "https://invidious.snopyta.org/api/v1/search"
 INVIDIOUS_WATCH_API_URL = invidious_instance + "/api/v1/videos/"
+INVIDIOUS_COMMENTS_API_URL = invidious_instance + "/api/v1/comments/"
 
 
 @app.route('/')
@@ -125,17 +126,27 @@ def watch(video_id):
 
     api_url = INVIDIOUS_WATCH_API_URL + video_id
     try:
-        response = requests.get(api_url)
-        response.raise_for_status()
-        results = response.json()
-        description = results['description'].replace('\n', '<br>')
+        responseVideo = requests.get(api_url)
+        responseVideo.raise_for_status()
+        resultsVideo = responseVideo.json()
+        description = resultsVideo['description'].replace('\n', '<br>')
     except requests.exceptions.RequestException as e:
         print('error')
         return jsonify(error=str(e)), 500
 
+    comments_api_utl = INVIDIOUS_COMMENTS_API_URL + video_id
+    try:
+        responseComments = requests.get(comments_api_utl)
+        responseComments.raise_for_status()
+        resultsComments = responseComments.json()
+        for com in resultsComments['comments']:
+            com['content'] = com['content'].replace('\n', '<br>')
+            print(com['content'].replace('\n', '<br>'))
+    except requests.exceptions.RequestException as e:
+        print('error')
+        return jsonify(error=str(e)), 500
 
-
-    return render_template('watch.html', video_url=video_url, details=results, description=description)
+    return render_template('watch.html', video_url=video_url, details=resultsVideo, description=description, commentsData=resultsComments)
 
 def shorten_views(num_views):
     if num_views < 1000:

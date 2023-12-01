@@ -1,0 +1,34 @@
+{% for comment in commentsData['comments'] %}
+    <div class="comment">
+        <div class="comment-author-image">
+            <img src="{{ comment['authorThumbnails'][0]['url'] }}" alt="User comment thumbnail" loading="lazy">
+        </div>
+        <div class="main">
+            <div class="top-info">
+                <div class="comment-author-name">
+                    {{ comment['author'] }}
+                </div>
+                <div class="comment-date">
+                    {{ comment['publishedText'] }}
+                </div>
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    {{ comment['content']|safe }}
+                </div>
+                <div class="overflow-indicator hidden">
+                    ...Read more
+                </div>
+            </div>
+            <div class="comment-rating">
+                <img src="../static/icon/like.png"><span class="comment-like"> {{ comment['likeCount'] }}</span>
+            </div>
+            <div class="replies-button">
+
+            </div>
+            <div class="replies-container">
+
+            </div>
+        </div>
+    </div>
+{% endfor %}

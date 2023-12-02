@@ -4,30 +4,40 @@
         {% if result['type'] == "video" %}
             <a href="{{ url_for('watch', video_id=result['videoId']) }}">
                 <div class="image">
-                    <img src="{{ result['videoThumbnails'][0]['url'] }}" alt="Thumbnail" loading="lazy">
+                    <img src="{{ result['videoThumbnails'][2]['url'] }}" alt="{{ result['title'] }}" loading="lazy">
                 </div>
                 <div class="title">
                     <p>{{ result['title'] }}</p>
                 </div>
             </a>
             <div class="info">
-                <span>{{ result['author'] }}</span>
+                <a href="{{ url_for('channel', channel_id=result['authorId']) }}">
+                    <span>{{ result['author'] }}</span>
+                </a>
                 <div>
                     <span class="view-count">{{ result['viewCount'] }}</span>
-                    <span>{{ result['published'] }}</span>
+                    <span> | {{ result['published'] }}</span>
                 </div>
             </div>
         {% elif 'playlistThumbnail' in result and result['playlistThumbnail'] %}
             <div class="image">
                 <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" loading="lazy">
             </div>
-            <p>{{ result['title'] }}</p>
+            <div class="playlist-container">
+                <p class="title">{{ result['title'] }}</p>
+                <p class="type">{{ result['author'] }} | Playlist</p>
+                <p class="video-count">{{ result['videoCount'] }} Videos</p>
+            </div>
         {% elif 'authorThumbnails' in result and result['authorThumbnails'] %}
             <div class="author-image-container">
-                <img class="circular" src="{{ result['authorThumbnails'][0]['url'] }}" alt="Channel Thumbnail" loading="lazy">
+                <a href="{{ url_for('channel', channel_id=result['authorId']) }}" class="image-link">
+                    <img class="circular" src="{{ result['authorThumbnails'][4]['url'] }}" alt="Channel Thumbnail" loading="lazy">
+                </a>
             </div>
             <div class="channel-name">
-                <p>{{ result['author'] }}</p>
+                <a href="{{ url_for('channel', channel_id=result['authorId']) }}">
+                    <p>{{ result['author'] }}</p>
+                </a>
             </div>
             <div class="channel-description">
                 <p>{{ result['description'] }}</p>

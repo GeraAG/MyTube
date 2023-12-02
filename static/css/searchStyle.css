@@ -1,4 +1,3 @@
-/* Your styles here */
 
 .thumbnail-container {
     display: grid;
@@ -17,11 +16,56 @@
     aspect-ratio: 16 / 9;
 }
 
+.title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.title p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.info a span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.type {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.playlist-container {
+    margin-top: 10px;
+}
+
+.playlist-container .type {
+    margin-top: 10px;
+}
+
+.video-count {
+    font-weight: 600;
+}
+
+.playlist-container p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .author-image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     aspect-ratio: 16 / 9;
+}
+
+.image-link {
+    width: 60%;
+    height: auto;
+    display: block;
+    text-align: center;
 }
 
 .circular {
@@ -30,6 +74,11 @@
     width: 50%;
     height: auto;
     aspect-ratio: 1;
+}
+
+.channel-name a p {
+    font-size: 25px;
+    font-weight: bold;
 }
 
 body {
@@ -49,10 +98,16 @@ label {
     font-weight: bold;
 }
 
-p {
-    color: #777;
+p, span {
+    color: #404040;
 }
 
 iframe {
     margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #404040;
 }

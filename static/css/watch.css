@@ -56,8 +56,10 @@
 }
 
 #author-name span {
+    text-decoration: none;
     font-size: 20px;
     font-weight: bold;
+    color: black;
 }
 
 #author-subcount {
@@ -118,6 +120,11 @@
 
 #comments {
     margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /*

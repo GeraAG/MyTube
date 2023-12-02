@@ -1,0 +1,18 @@
+{% for video in channel['latestVideos'] %}
+    <div class="thumbnail">
+        <a href="{{ url_for('watch', video_id=video['videoId']) }}">
+            <div class="image">
+                <img src="{{ video['videoThumbnails'][2]['url'] }}" alt="Thumbnail" loading="lazy">
+            </div>
+            <div class="title">
+                <p>{{ video['title'] }}</p>
+            </div>
+        </a>
+        <div class="info">
+            <div>
+                <span class="view-count">{{ video['viewCountText'] }} | </span>
+                <span>{{ video['publishedText'] }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

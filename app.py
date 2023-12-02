@@ -8,11 +8,15 @@ app = Flask(__name__)
 
 #TODO: chaeck if invideous insctance is not working and use working one
 #invidious_instance = "https://invidious.nerdvpn.de"
-invidious_instance = "https://invidious.io.lol"
+#invidious_instance = "https://invidious.io.lol"
 #invidious_instance = "https://redirect.invidious.io"
-INVIDIOUS_API_URL = "https://invidious.snopyta.org/api/v1/search"
+#invidious_instance = "https://invidious.snopyta.org"
+#invidious_instance = "https://vid.puffyan.us"
+invidious_instance = "https://inv.tux.pizza"
+INVIDIOUS_API_URL = invidious_instance + "/api/v1/search"
 INVIDIOUS_WATCH_API_URL = invidious_instance + "/api/v1/videos/"
 INVIDIOUS_COMMENTS_API_URL = invidious_instance + "/api/v1/comments/"
+INVIDIOUS_CHANNEL_API_URL = invidious_instance + "/api/v1/channels/"
 
 
 @app.route('/')
@@ -34,7 +38,7 @@ def search():
         duration: "short", "long", "medium"
         type: "video", "playlist", "channel", "movie", "show", "all", (default: all)
         features: "hd", "subtitles", "creative_commons", "3d", "live", "purchased", "4k", "360", "location", "hdr", "vr180" (comma separated: e.g. "&features=hd,subtitles,3d,live")
-        region: ISO 3166 country code (default: "US")
+        region: ISO 3166 country code (default: "US")INVIDIOUS_CHANNEL_API_URL
         '''
         params = {
             'q': search_query,
@@ -52,6 +56,7 @@ def search():
 
         for result in results:
             if result['type'] == "video":
+                #print(result['videoThumbnails'][0]['url'])
                 result['viewCount'] = shorten_views(result['viewCount'])
                 #result['published'] =
                 publishedTime = datetime.fromtimestamp(result['published'])
@@ -77,6 +82,10 @@ def search():
                 else:
                     print(publishedTime)
                     result['published'] = ""
+            elif result['type'] == "channel":
+                for i in result['authorThumbnails']:
+                    print(i['url'])
+                    print(i['width'])
 
 
 
@@ -107,7 +116,6 @@ def watch(video_id):
         video_url = video_stream.url
     else:
         video_url = ""
-
     '''
     video_details = {
         'author': yt.author,
@@ -141,12 +149,41 @@ def watch(video_id):
         resultsComments = responseComments.json()
         for com in resultsComments['comments']:
             com['content'] = com['content'].replace('\n', '<br>')
-            print(com['content'].replace('\n', '<br>'))
+            #print(com['content'].replace('\n', '<br>'))
     except requests.exceptions.RequestException as e:
         print('error')
         return jsonify(error=str(e)), 500
 
     return render_template('watch.html', video_url=video_url, details=resultsVideo, description=description, commentsData=resultsComments)
+
+#X2zcG3bcuMI
+@app.route('/channel/<channel_id>')
+def channel(channel_id):
+    print('Working?')
+    channel_api_url = INVIDIOUS_CHANNEL_API_URL + channel_id
+
+    try:
+        response = requests.get(channel_api_url)
+        response.raise_for_status()
+        results = response.json()
+    except requests.exceptions.RequestException as e:
+        print('error')
+        return jsonify(error=str(e)), 500
+    print(results['totalViews'])
+    #for i in results['latestVideos']:
+    #    print(i['title'])
+    #    print(i['videoThumbnails'][0]['url'])
+    for i in results['authorThumbnails']:
+        print(i['width'])
+        print(i['url'])
+
+    # Render the results as HTML for the initial request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Return paginated results as JSON for AJAX requests
+        return jsonify(html=render_template('channel.html', channel=results, api_url=invidious_instance))
+    else:
+        # Return the entire HTML page for the initial request
+        return render_template('channel.html', channel=results, api_url=invidious_instance)
 
 def shorten_views(num_views):
     if num_views < 1000:

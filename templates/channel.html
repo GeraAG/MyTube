@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTube - {{ channel['author'] }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/topBar.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/channel.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+    <script src="{{ url_for('static', filename='js/channel.js') }}"></script>
+
+</head>
+<body>
+    {% include 'top_bar.html' %}
+    <div class="channel-top">
+        {% if channel['authorBanners'][0] %}
+            <div id="banner-container">
+                <img src="{{ channel['authorBanners'][0]['url'] }}">
+            </div>
+        {% endif %}
+        <div id="author">
+            <div id="author-image">
+                <img src="{{ channel['authorThumbnails'][4]['url'] }}" width="{{ channel['authorThumbnails'][4]['width'] }}" height="{{ channel['authorThumbnails'][4]['height'] }}">
+            </div>
+            <div id="author-text">
+                <div id="author-name">
+                    <span>{{ channel['author'] }}</span>
+                </div>
+                <div id="author-numbers">
+                    <span id="subCount">{{ channel['subCount'] }}</span><span> subscribers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="thumbnail-container" class="thumbnail-container">
+        {% if channel %}
+            {% include 'channel_result.html' %}
+        {% endif %}
+    </div>
+</body>
+</html>

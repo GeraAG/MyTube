@@ -54,7 +54,11 @@ function showComment() {
             comment.querySelectorAll("div")[1].classList.toggle("hidden");
 
             comment.querySelectorAll("div")[1].addEventListener("click", (e) => {
-                e.currentTarget.parentNode.querySelectorAll("div")[0].classList.toggle("visible");
+                if (e.currentTarget.parentNode.querySelectorAll("div")[0].classList.toggle("visible")) {
+                    e.currentTarget.innerHTML = "Show Less";
+                } else {
+                    e.currentTarget.innerHTML = "...Read More";
+                }
             });
         }
 

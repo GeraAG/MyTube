@@ -25,10 +25,12 @@
         <div id="video-info">
             <div id="author">
                 <div id="author-image">
-                    <img src="{{ details['authorThumbnails'][0]['url'] }}">
+                    <a href="{{ url_for('channel', channel_id=details['authorId']) }}">
+                        <img src="{{ details['authorThumbnails'][0]['url'] }}">
+                    </a>
                 </div>
                 <div id="author-name">
-                    <span>{{ details['author'] }}</span>
+                    <a href="{{ url_for('channel', channel_id=details['authorId']) }}"><span>{{ details['author'] }}</span></a>
                 </div>
                 <div id="author-subcount">
                     <span>{{ details['subCountText'] }} subscribers</span>

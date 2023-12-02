@@ -24,8 +24,10 @@
 }
 
 #title {
+    text-decoration: none;
     font-family: 'Russo One';
     font-size: 50px;
+    color: black;
 }
 
 .search-container {

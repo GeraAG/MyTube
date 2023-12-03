@@ -1,18 +1,17 @@
-{% for video in channel['latestVideos'] %}
+{% for video in playlist['videos'] %}
     <div class="thumbnail">
         <a href="{{ url_for('watch', video_id=video['videoId']) }}">
             <div class="image">
-                <img src="{{ video['videoThumbnails'][2]['url'] }}" alt="Thumbnail" loading="lazy">
+                <img src="{{ video['videoThumbnails'][3]['url'] }}" alt="Thumbnail" loading="lazy">
             </div>
             <div class="title">
                 <span>{{ video['title'] }}</span>
             </div>
         </a>
         <div class="info">
-            <div>
-                <span class="view-count">{{ video['viewCountText'] }} | </span>
-                <span>{{ video['publishedText'] }}</span>
-            </div>
+            <a href="{{ url_for('channel', channel_id=video['authorId']) }}">
+                <span>{{ video['author'] }}</span>
+            </a>
         </div>
     </div>
 {% endfor %}

@@ -16,16 +16,24 @@
                 </a>
                 <div>
                     <span class="view-count">{{ result['viewCount'] }}</span>
-                    <span> | {{ result['published'] }}</span>
+                    {% if result['published'] %}
+                        <span> | {{ result['published'] }}</span>
+                    {% endif %}
                 </div>
             </div>
         {% elif 'playlistThumbnail' in result and result['playlistThumbnail'] %}
-            <div class="image">
-                <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" loading="lazy">
-            </div>
+            <a href="{{ url_for('playlist', playlist_id=result['playlistId']) }}">
+                <div class="image">
+                    <img src="{{ result['playlistThumbnail'] }}" alt="Playlist Thumbnail" loading="lazy">
+                </div>
+            </a>
             <div class="playlist-container">
-                <p class="title">{{ result['title'] }}</p>
-                <p class="type">{{ result['author'] }} | Playlist</p>
+                <a href="{{ url_for('playlist', playlist_id=result['playlistId']) }}">
+                    <p class="title">{{ result['title'] }}</p>
+                </a>
+                <a href="{{ url_for('channel', channel_id=result['authorId']) }}">
+                    <p class="type">{{ result['author'] }} | Playlist</p>
+                </a>
                 <p class="video-count">{{ result['videoCount'] }} Videos</p>
             </div>
         {% elif 'authorThumbnails' in result and result['authorThumbnails'] %}

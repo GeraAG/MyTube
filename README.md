@@ -1,6 +1,9 @@
 # MyTube
-Basic Youtube clone to watch and download videos without any ads
+An alternative fronted for Youtube
 
-Requires pytube
+Requires pytube and flask
 
+'''
 pip install pytube
+pip install flask
+'''

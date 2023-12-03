@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTube - {{ playlist['title'] }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/topBar.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/playlist.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+    <script src="{{ url_for('static', filename='js/playlist.js') }}"></script>
+
+</head>
+<body>
+    {% include 'top_bar.html' %}
+    <div id="top-info">
+        <div id="playlist-info">
+            <div id="playlist-title">
+                {{ playlist['title'] }}
+            </div>
+            <div class="description-container">
+                <div class="playlist-description">
+                    {{ playlist['description'] }}
+                </div>
+                <div id="showhideButton" class="hidden" onclick="showHide()">
+                    ...more
+                </div>
+            </div>
+        </div>
+        <div id="author-name">
+            <span>{{ playlist['author'] }}</span>
+        </div>
+        <div id="playlist-text">
+            <span id="video-count">{{ playlist['videoCount'] }} Videos</span>
+            {% if playlist['viewCount'] != '0' %}
+                <span id="view-count"> | {{ playlist['viewCount'] }} Views</span>
+            {% endif %}
+            <span id="playlist-updated"> | Updated {{ playlist['updated'] }}</span>
+        </div>
+    </div>
+    <div id="thumbnail-container" class="thumbnail-container">
+        {% if playlist %}
+            {% include 'playlist_result.html' %}
+        {% endif %}
+    </div>
+</body>
+</html>

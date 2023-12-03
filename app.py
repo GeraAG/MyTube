@@ -17,6 +17,7 @@ INVIDIOUS_API_URL = invidious_instance + "/api/v1/search"
 INVIDIOUS_WATCH_API_URL = invidious_instance + "/api/v1/videos/"
 INVIDIOUS_COMMENTS_API_URL = invidious_instance + "/api/v1/comments/"
 INVIDIOUS_CHANNEL_API_URL = invidious_instance + "/api/v1/channels/"
+INVIDIOUS_PLAYLIST_API_URL = invidious_instance + "/api/v1/playlists/"
 
 
 @app.route('/')
@@ -52,14 +53,18 @@ def search():
         except requests.exceptions.RequestException as e:
             return jsonify(error=str(e)), 500
 
-        currentTime = datetime.today()
+        #currentTime = datetime.today()
 
         for result in results:
             if result['type'] == "video":
                 #print(result['videoThumbnails'][0]['url'])
                 result['viewCount'] = shorten_views(result['viewCount'])
-                #result['published'] =
+
                 publishedTime = datetime.fromtimestamp(result['published'])
+
+                result['published'] = readableTime(publishedTime)
+
+                '''
                 diff = relativedelta(currentTime, publishedTime)
                 if diff.years > 1:
                     result['published'] = str(diff.years) + " years ago"
@@ -80,14 +85,7 @@ def search():
                 elif diff.minutes > 1:
                     result['published'] = str(diff.minutes) + " minutes ago"
                 else:
-                    print(publishedTime)
-                    result['published'] = ""
-            elif result['type'] == "channel":
-                for i in result['authorThumbnails']:
-                    print(i['url'])
-                    print(i['width'])
-
-
+                    result['published'] = ""'''
 
         # Render the results as HTML for the initial request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -149,19 +147,16 @@ def watch(video_id):
         resultsComments = responseComments.json()
         for com in resultsComments['comments']:
             com['content'] = com['content'].replace('\n', '<br>')
-            #print(com['content'].replace('\n', '<br>'))
     except requests.exceptions.RequestException as e:
         print('error')
         return jsonify(error=str(e)), 500
 
     return render_template('watch.html', video_url=video_url, details=resultsVideo, description=description, commentsData=resultsComments)
 
-#X2zcG3bcuMI
 @app.route('/channel/<channel_id>')
 def channel(channel_id):
-    print('Working?')
-    channel_api_url = INVIDIOUS_CHANNEL_API_URL + channel_id
 
+    channel_api_url = INVIDIOUS_CHANNEL_API_URL + channel_id
     try:
         response = requests.get(channel_api_url)
         response.raise_for_status()
@@ -169,21 +164,68 @@ def channel(channel_id):
     except requests.exceptions.RequestException as e:
         print('error')
         return jsonify(error=str(e)), 500
-    print(results['totalViews'])
-    #for i in results['latestVideos']:
-    #    print(i['title'])
-    #    print(i['videoThumbnails'][0]['url'])
-    for i in results['authorThumbnails']:
-        print(i['width'])
-        print(i['url'])
 
     # Render the results as HTML for the initial request
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         # Return paginated results as JSON for AJAX requests
-        return jsonify(html=render_template('channel.html', channel=results, api_url=invidious_instance))
+        return jsonify(html=render_template('channel.html', channel=results))
     else:
         # Return the entire HTML page for the initial request
-        return render_template('channel.html', channel=results, api_url=invidious_instance)
+        return render_template('channel.html', channel=results)
+
+@app.route('/playlist/<playlist_id>')
+def playlist(playlist_id):
+
+    '''
+    page = request.args.get('page', 1, type=int)
+    params = {'page': page}
+    '''
+    playlist_api_url = INVIDIOUS_PLAYLIST_API_URL + playlist_id
+    try:
+        response = requests.get(playlist_api_url)
+        response.raise_for_status()
+        results = response.json()
+    except requests.exceptions.RequestException as e:
+        print('error')
+        return jsonify(error=str(e)), 500
+
+    results['viewCount'] = shorten_views(results['viewCount'])
+
+    publishedTime = datetime.fromtimestamp(results['updated'])
+
+    results['updated'] = readableTime(publishedTime)
+
+    # Render the results as HTML for the initial request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Return paginated results as JSON for AJAX requests
+        return jsonify(html=render_template('playlist.html', playlist=results))
+    else:
+        # Return the entire HTML page for the initial request
+        return render_template('playlist.html', playlist=results)
+
+def readableTime(time):
+    currentTime = datetime.today()
+    diff = relativedelta(currentTime, time)
+    if diff.years > 1:
+        return str(diff.years) + " years ago"
+    elif diff.years == 1:
+        return "1 year ago"
+    elif diff.months > 1:
+        return str(diff.months) + " months ago"
+    elif diff.months == 1:
+        return "1 month ago"
+    elif diff.days > 1:
+        return str(diff.days) + " days ago"
+    elif diff.days == 1:
+        return "1 day ago"
+    elif diff.hours > 1:
+        return str(diff.hours) + " hours ago"
+    elif diff.hours == 1:
+        return "1 hour ago"
+    elif diff.minutes > 1:
+        return str(diff.minutes) + " minutes ago"
+    else:
+        return ""
 
 def shorten_views(num_views):
     if num_views < 1000:

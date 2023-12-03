@@ -1,47 +1,51 @@
-.channel-top {
+#top-info {
     margin-left: auto;
     margin-right: auto;
     margin-top: 100px;
-}
-
-#banner-container {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-#author {
-    justify-content: center;
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-}
-
-#author-image img {
-    object-fit: contain;
-    border-radius: 50%;
-    width: auto;
-    height: calc(100%);
-    aspect-ratio: 1;
-}
-
-#author-text {
-    margin-left: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;
 }
 
-#author-name {
-    font-size: 50px;
+.playlist-description {
+    height: 38px;
+    width: calc(100%);
+    display:block;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: "more ...";
+}
+
+.visible {
+    height: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+#showhideButton {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#playlist-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#playlist-title {
+    font-size: 40px;
     font-weight: bold;
 }
 
-#author-numbers {
-    margin-top: 20px;
-    font-size: 22px;
-    color: #3f3e41;
+#author-name {
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .thumbnail-container {

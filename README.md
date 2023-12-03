@@ -1,5 +1,5 @@
 # MyTube
-An alternative fronted for Youtube
+An alternative fronted for Youtube using Invidious API (https://docs.invidious.io/)
 
 Requires pytube and flask
 
